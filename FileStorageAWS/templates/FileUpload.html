@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Image</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="../static/js/jquery-1.11.2.js"></script>
+<script>
+    $(function() {
+    $('#fileupload').fileupload({
+        url: 'upload',
+        dataType: 'json',
+        add: function(e, data) {
+            data.submit();
+        },
+        success: function(response, status) {
+            console.log(response);
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+})
+            </script>
+    <style type="text/css" media=screen>
+
+form{
+   position:fixed;
+   top:50%;
+   left:50%;
+   width:250px;
+    vertical-align:top;
+}
+</style>
+</head>
+<body class="whole" style="background-color: #00ffff">
+<div class="conainer"  >
+<form action="/Upload" class="col-6" method="POST" enctype="multipart/form-data" >
+    <label>Select the file to Upload</label>
+<input type="file"  name="fileupload"/>
+    <input href="/Upload" class="col-6 btn btn-lg btn-success" type="submit" name="Upload">
+</form>
+</div>
+</body>
+</html>
