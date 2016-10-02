@@ -10,17 +10,20 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 
 
-
+#Function for root page
 @app.route('/',methods=['GET','POST'])
 def hello_world():
     if request.method=='GET':
         return render_template('/Auth.html')
+    
+#Function for validating user name and password
 @app.route('/ValidateUser',methods=['POST'])
 def authenticate():
     if request.method=='POST':
         username=request.form['username']
         auth_files='names.txt'
         #os.chdir('XXXXXX')
+        #Opening the file to read the username and password
         f = open(auth_files,'r')
         for line in f.read().split('\n'):
             print "line"+line
@@ -36,6 +39,8 @@ def authenticate():
             <title>Status</title>
             <h1 style="color: #ff0000">%s</h1>
             """ % status_message
+
+#Function to store the file into the bucket
 @app.route('/List',methods=['GET'])
 def List():
     s3=boto3.resource('s3')
@@ -54,6 +59,7 @@ def List():
     %s</body>
     """ % listfileshtml
 
+#Function to Download the content of the file 
 @app.route('/Download',methods=['GET','POST'])
 def Download():
     if(request.method=='GET'):
@@ -84,6 +90,7 @@ def Download():
             <body style="background-color: #00ffff">%s</body>
             """ % status
 
+#Function to Delete the file mentioned 
 @app.route('/Delete',methods=['GET','POST'])
 def Delete():
     if(request.method=='GET'):
@@ -113,9 +120,13 @@ def Delete():
             <title>Success Status</title>
             <body style="background-color: #00ffff">%s</body>
             """ % status
+    
+#Function to load the webpage for selecting the file to upload
 @app.route('/FileUpload',methods=['GET'])
 def FileUpload():
     return render_template('FileUpload.html')
+
+#Function to upload the file to the bucket
 @app.route('/Upload',methods=['POST'])
 def Upload():
     file=request.files['fileupload']
